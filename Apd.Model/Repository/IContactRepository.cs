@@ -9,11 +9,11 @@ namespace Apd.Model.Repository {
         void DeleteContactEmail(int contactId, Email email);
         void DeleteContactPhoneNumber(int contactId, PhoneNumber phoneNumber);
 
-        void AddContact(Contact contact);
-        void DeleteContact(Contact contact);
-        void UpdateContact(Contact contact);
+        Contact AddContact(Contact contact);
+        void DeleteContact(int id);
+        Contact UpdateContact(Contact contact);
 
-        void GetContact(int id);
+        Contact GetContact(int id);
         IEnumerable<Contact> SearchContactsByName(string name);
     }
 }

@@ -38,7 +38,7 @@ namespace Apd.Model.Entity {
         }
 
         private void InitializeUniqueList(IList list, IEnumerable elements) {
-            if (list == null)
+            if (elements == null)
                 return;
 
             foreach (var element in elements) {
