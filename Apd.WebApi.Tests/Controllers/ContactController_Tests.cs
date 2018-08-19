@@ -170,8 +170,6 @@ namespace Apd.WebApi.Tests.Controllers {
             Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
         
-        // -------------------
-        
         [Test]
         public void delete_contact_phone_returns_ok_result_for_valid_phone() {
             this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
