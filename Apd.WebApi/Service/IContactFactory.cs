@@ -1,7 +1,7 @@
-﻿using Apd.Common.DataTransferObject;
+﻿using Apd.Common.Communication.DataTransferObject;
 using Apd.Model.Entity;
 
-namespace Apd.WebApi.Factory {
+namespace Apd.WebApi.Service {
     public interface IContactFactory {
         Contact CreateFromOther(int id, Contact other);
         ContactDto ConvertToDto(Contact contact);

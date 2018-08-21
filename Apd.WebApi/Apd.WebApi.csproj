@@ -24,7 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -93,13 +93,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Extension\ApiControllerExtension.cs" />
-    <Compile Include="Factory\ContactFactory.cs" />
-    <Compile Include="Factory\IContactFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\DictionaryContactRepository.cs" />
+    <Compile Include="Service\ContactFactory.cs" />
+    <Compile Include="Service\DictionaryContactRepository.cs" />
+    <Compile Include="Service\IContactFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

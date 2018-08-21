@@ -23,62 +23,46 @@ namespace Apd.Model.Tests.Entity {
         }
         
         [Test]
-        public void cannot_be_created_without_first_name() {
+        public void creating_instance_with_invalid_FirstName_should_throw_ArgumentNullException() {
             Assert.Throws<ArgumentNullException>(() =>new Contact(1, null, lastName, this.birthDate, new Email[0], new PhoneNumber[0]));
         }
         
         [Test]
-        public void cannot_be_created_without_last_name() {
+        public void creating_instance_with_invalid_LasttName_should_throw_ArgumentNullException() {
             Assert.Throws<ArgumentNullException>(() =>new Contact(1, firstName, null, this.birthDate, new Email[0], new PhoneNumber[0]));
         }
         
         [Test]
-        public void cannot_be_created_without_birth_date() {
+        public void creating_instance_with_invalid_BirthDate_should_throw_ArgumentNullException() {
             Assert.Throws<ArgumentNullException>(() =>new Contact(1, firstName, lastName, null, new Email[0], new PhoneNumber[0]));
         }
 
         [Test]
-        public void cannot_be_created_with_duplicate_emails() {
+        public void creating_instance_with_invalid_duplicate_Email_should_throw_ArgumentNullException() {
             Assert.Throws<InvalidOperationException>(() =>new Contact(1, firstName, lastName, birthDate,  new []{new Email("a@a.com"), new Email("a@a.com") }, new PhoneNumber[0]));
         }
         
         [Test]
-        public void cannot_be_created_with_duplicate_phone_numbers() {
+        public void creating_instance_with_invalid_duplicate_PhoneNumber_should_throw_ArgumentNullException() {
             Assert.Throws<InvalidOperationException>(() =>new Contact(1, firstName, lastName, birthDate,  new Email[0], new []{new PhoneNumber("12312344"), new PhoneNumber("12312344")}));
         }
-
-        [Test]
-        public void can_add_unique_email() {
-            var contact = new Contact(1, firstName, lastName, birthDate, new[] {new Email("a@a.com")}, new PhoneNumber[0]);
-            var email = new Email("b@b.com");
-            contact.AddEmail(email, this.mockRepository.Object);
-            Assert.IsTrue(contact.Emails.Contains(email));
-        }
         
         [Test]
-        public void can_add_unique_phone_numbert() {
-            var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new []{new PhoneNumber("12312344")});
-            var phoneNumber = new PhoneNumber("1235553323");
-            contact.AddPhoneNumber(phoneNumber, this.mockRepository.Object);
-            Assert.IsTrue(contact.PhoneNumbers.Contains(phoneNumber));
-        }
-        
-        [Test]
-        public void cannot_add_duplicate_email() {
+        public void AddEmail_should_throw_InvalidOperationException_for_duplicate_email() {
             var contact = new Contact(1, firstName, lastName, birthDate, new[] {new Email("a@a.com")}, new PhoneNumber[0]);
             var email = new Email("a@a.com");
             Assert.Throws<InvalidOperationException>(() => contact.AddEmail(email, this.mockRepository.Object));
         }
         
         [Test]
-        public void cannot_add_duplicate_phone_numbert() {
+        public void AddPhoneNumber_should_throw_InvalidOperationException_for_duplicate_phone_number() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new []{new PhoneNumber("12312344")});
             var phoneNumber = new PhoneNumber("12312344");
             Assert.Throws<InvalidOperationException>(() => contact.AddPhoneNumber(phoneNumber, this.mockRepository.Object));
         }
 
         [Test]
-        public void valid_email_is_added_to_repository() {
+        public void AddEmail_should_add_email_to_repository() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new PhoneNumber[0]);
             var email = new Email("a@a.com");
             contact.AddEmail(email, this.mockRepository.Object);
@@ -86,7 +70,7 @@ namespace Apd.Model.Tests.Entity {
         }
         
         [Test]
-        public void valid_phone_number_is_added_to_repository() {
+        public void AddPhoneNumber_should_add_phone_number_to_repository() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new PhoneNumber[0]);
             var phoneNumber = new PhoneNumber("1122334455");
             contact.AddPhoneNumber(phoneNumber, this.mockRepository.Object);
@@ -94,37 +78,21 @@ namespace Apd.Model.Tests.Entity {
         }
 
         [Test]
-        public void cannot_delete_not_existing_email() {
+        public void DeleteEmail_should_throw_InvalidOperationException_for_not_exisiting_email() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new PhoneNumber[0]);
             var email = new Email("a@a.com");
             Assert.Throws<InvalidOperationException>(() => contact.DeleteEmail(email, this.mockRepository.Object));
         }
         
         [Test]
-        public void can_delete_existing_email() {
-            var contact = new Contact(1, firstName, lastName, birthDate, new[] {new Email("a@a.com")}, new PhoneNumber[0]);
-            var email = new Email("a@a.com");
-            contact.DeleteEmail(email, this.mockRepository.Object);
-            Assert.AreEqual(contact.Emails.Count, 0);
-        }
-        
-        [Test]
-        public void cannot_delete_not_existing_phone_number() {
+        public void DeletePhoneNumber_should_throw_InvalidOperationException_for_not_exisiting_phone_number() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new PhoneNumber[0]);
             var phoneNumber = new PhoneNumber("211223432314");
             Assert.Throws<InvalidOperationException>(() => contact.DeletePhoneNumber(phoneNumber, this.mockRepository.Object));
         }
         
         [Test]
-        public void can_delete_existing_phone_number() {
-            var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new [] {new PhoneNumber("211223432314") });
-            var phoneNumber = new PhoneNumber("211223432314");
-            contact.DeletePhoneNumber(phoneNumber, this.mockRepository.Object);
-            Assert.AreEqual(contact.PhoneNumbers.Count, 0);
-        }
-        
-        [Test]
-        public void valid_email_is_deleted_from_repository() {
+        public void DeleteEmail_should_delete_email_from_repository() {
             var contact = new Contact(1, firstName, lastName, birthDate, new [] {new Email("a@a.com")}, new PhoneNumber[0]);
             var email = new Email("a@a.com");
             contact.DeleteEmail(email, this.mockRepository.Object);
@@ -132,7 +100,7 @@ namespace Apd.Model.Tests.Entity {
         }
         
         [Test]
-        public void valid_phone_number_is_deleted_from_repository() {
+        public void DeleteContactPhoneNumber_should_delete_phone_number_from_repository() {
             var contact = new Contact(1, firstName, lastName, birthDate, new Email[0], new [] {new PhoneNumber("1122334455")});
             var phoneNumber = new PhoneNumber("1122334455");
             contact.DeletePhoneNumber(phoneNumber, this.mockRepository.Object);

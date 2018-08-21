@@ -1,7 +1,7 @@
 ﻿using System;
 using Apd.Model.Entity;
 using Apd.Model.Value;
-using Apd.WebApi.Factory;
+using Apd.WebApi.Service;
 using NUnit.Framework;
 
 namespace Apd.WebApi.Tests.Factory {
@@ -15,7 +15,7 @@ namespace Apd.WebApi.Tests.Factory {
         }
         
         [Test]
-        public void create_from_other_copy_all_valuesfrom_other_contact_except_id() {
+        public void CreateFromOther_should_create_new_ionstance_of_Contact_with_provided_Id_and_other_values_coppied_from_other_contact() {
             var contact = new Contact(1, new Name("Jhon"), new Name("Smith"), new BirthDate(new DateTime(1980, 3, 24)), null, null);
             var other = factory.CreateFromOther(2, contact);
             Assert.AreEqual(2, other.Id);
@@ -27,7 +27,7 @@ namespace Apd.WebApi.Tests.Factory {
         }
 
         [Test]
-        public void convert_to_dto_copy_all_properties_to_dto_object() {
+        public void ConvertToDto_should_create_new_insance_of_ContactDto_with_values_coppied_from_Contact() {
             var contact = new Contact(1, new Name("Jhon"), new Name("Smith"), new BirthDate(new DateTime(1980, 3, 24)), new [] {new Email("a@a.com") }, null);
             var dto = this.factory.ConvertToDto(contact);
             Assert.AreEqual(dto.Id, contact.Id);
@@ -39,7 +39,7 @@ namespace Apd.WebApi.Tests.Factory {
         }
 
         [Test]
-        public void crreate_from_dto_copy_all_properties_to_contact() {
+        public void CreateFromDto_should_create_new_insance_of_Contact_with_values_coppied_from_ContactDto() {
             var contact = new Contact(1, new Name("Jhon"), new Name("Smith"), new BirthDate(new DateTime(1980, 3, 24)), new [] {new Email("a@a.com") }, null);
             var dto = this.factory.ConvertToDto(contact);
             var frtomDto = this.factory.CreateFromDto(dto);

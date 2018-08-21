@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Apd.Desktop.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024"
+        Title="APD" Height="768" Width="1024"
         Padding="5"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid Margin="5">
@@ -23,74 +23,8 @@
         <Rectangle Grid.Row="1" Grid.ColumnSpan="3"  Style="{StaticResource ResourceKey=horizontal-separator}"></Rectangle>
         <GridSplitter Grid.Column="1" Grid.Row="2" Width="5" HorizontalAlignment="Stretch" Background="White" ></GridSplitter>
         <Rectangle Grid.Column="1" Grid.Row="2" Style="{StaticResource ResourceKey=vertical-separator}"></Rectangle>
-        <view:ContactsView Grid.Row="2" Margin="0 0 3 0"/>
-        <Grid Grid.Row="2" Grid.Column="2" Margin="3 0 0 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="31"/>
-                <RowDefinition Height="31"/>
-                <RowDefinition Height="31"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="28"/>
-                <RowDefinition Height="28"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.ColumnSpan="2" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                    BorderThickness="0 0 0 1" Padding="0">
-                <Label FontSize="14" Margin="0" Padding="3">Details:</Label>
-            </Border>
-            <Label Margin="0 3 0 0" Grid.Row="1">First Name:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="0 3 0 3"></TextBox>
-
-            <Label Margin="0 3 0 0" Grid.Row="2">Last Name:</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="0 3 0 3"></TextBox>
-
-            <Label Margin="0 2 0 0" Grid.Row="3">Birth Date:</Label>
-            <DatePicker Grid.Row="3" Grid.Column="2" Margin="0 3 0 3"/>
-
-            <Grid Grid.Row="4" Grid.ColumnSpan="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="31"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Border  BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                        BorderThickness="0 0 0 1" Padding="0">
-                    <Label FontSize="14" Margin="0 6 0 0" Padding="3">Emails:</Label>
-                </Border>
-                <ListBox Grid.Row="1" Margin="0 3 0 3"></ListBox>
-                <StackPanel Orientation="Horizontal" Grid.Row="2" FlowDirection="RightToLeft">
-                    <Button Margin="0 0 3 0">Delete</Button>
-                    <Button>Add</Button>
-                </StackPanel>
-            </Grid>
-
-
-            <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="0 0 0 3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="31"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <Border  BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                        BorderThickness="0 0 0 1" Padding="0">
-                    <Label FontSize="14" Margin="0 6 0 0" Padding="3">Phone numbers:</Label>
-                </Border>
-                <ListBox Grid.Row="1" Margin="0 3 0 3"></ListBox>
-                <StackPanel Orientation="Horizontal" Grid.Row="2" FlowDirection="RightToLeft">
-                    <Button Margin="0 0 3 0">Delete</Button>
-                    <Button>Add</Button>
-                </StackPanel>
-            </Grid>
-            <Rectangle Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=horizontal-separator}"/>
-            <Button Grid.Row="7" Grid.ColumnSpan="2" Margin="0 3 0 0">Save</Button>
-            <Button Grid.Row="8" Grid.ColumnSpan="2" Margin="0 3 0 0">Cancel</Button>
-
-        </Grid>
+        <view:ContactsView x:Name="ContactsUc" Grid.Row="2" Margin="0 0 3 0"/>
+        <view:ContactView IsEnabled="{Binding ElementName=ContactsUc, Path=DataContext.IsContactSelected}" Grid.Row="2" Grid.Column="2" Margin="3 0 0 0" DataContext="{Binding ElementName=ContactsUc, Path=DataContext.SelectedContact}"></view:ContactView>
+        <view:ShieldView Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3"></view:ShieldView>
     </Grid>
 </Window>

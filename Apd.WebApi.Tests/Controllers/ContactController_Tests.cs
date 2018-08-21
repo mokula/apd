@@ -2,15 +2,14 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Web.Http;
 using System.Web.Http.Results;
-using Apd.Common.DataTransferObject;
+using Apd.Common.Communication.DataTransferObject;
 using Apd.Model.Entity;
 using Apd.Model.Repository;
 using Apd.Model.Value;
 using Apd.WebApi.Controllers;
-using Apd.WebApi.Factory;
+using Apd.WebApi.Service;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -47,7 +46,7 @@ namespace Apd.WebApi.Tests.Controllers {
         }
 
         [Test]
-        public void get_contact_returns_dto_parsed_to_json() {
+        public void GetContact_should_return_result_with_dto_parsed_to_json_and_status_code_OK() {
             this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
             this.mockFactory.Setup(x => x.ConvertToDto(It.IsAny<Contact>())).Returns(this.dto);
             
@@ -59,14 +58,14 @@ namespace Apd.WebApi.Tests.Controllers {
         }
 
         [Test]
-        public void get_contact_returns_not_found_result_for_invalid_id() {
+        public void GetContact_for_invalid_id_should_return_NotFoundResult() {
             this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Throws<InvalidOperationException>();
             var actionResult = this.controller.GetContact(1);
             Assert.IsInstanceOf<NotFoundResult>(actionResult);
         }
 
         [Test]
-        public void search_contact_by_name_returns_array_of_contacts_parrsed_to_json() {
+        public void SearchContactsbyName_should_return_result_with_array_of_dtos_parsed_to_json_and_status_code_OK() {
             this.mockRepository.Setup(x => x.SearchContactsByName(It.IsAny<string>())).Returns(new[] { this.contact });
             this.mockFactory.Setup(x => x.ConvertToDto(It.IsAny<Contact>())).Returns(this.dto);
             
@@ -78,7 +77,7 @@ namespace Apd.WebApi.Tests.Controllers {
         }
         
         [Test]
-        public void get_all_contacts_returns_array_of_contacts_parrsed_to_json() {
+        public void GetAllContacts_should_return_result_with_array_of_dtos_parsed_to_json_and_status_code_OK() {
             this.mockRepository.Setup(x => x.SearchContactsByName(It.IsAny<string>())).Returns(new[] { this.contact });
             this.mockFactory.Setup(x => x.ConvertToDto(It.IsAny<Contact>())).Returns(this.dto);
             
@@ -90,25 +89,27 @@ namespace Apd.WebApi.Tests.Controllers {
         }
         
         [Test]
-        public void delete_contact_returns_ok_result_for_valid_id() {
+        public void Delete_for_valid_id_should_return_OkNegotiatedContentResult_with_value_1() {
             var actionResult = this.controller.DeleteContact(1);
-            Assert.IsInstanceOf<OkResult>(actionResult);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<string>>(actionResult);
+            Assert.AreEqual("1", ((OkNegotiatedContentResult<string>)actionResult).Content);
+            
         }
         
         [Test]
-        public void delete_contact_returns_not_found_result_for_invalid_id() {
+        public void Delete_for_invalid_id_should_return_NotFoundResult() {
             this.mockRepository.Setup(x => x.DeleteContact(It.IsAny<int>())).Throws<InvalidOperationException>();
             var actionResult = this.controller.DeleteContact(1);
             Assert.IsInstanceOf<NotFoundResult>(actionResult);
         }
         
         [Test]
-        public void update_contact_returns_updated_contact_parsed_to_json() {
+        public void UpdateContact_should_return_result_with_dto_parsed_to_json_and_status_code_OK() {
             this.mockRepository.Setup(x => x.UpdateContact(It.IsAny<Contact>())).Returns(this.contact);
             this.mockFactory.Setup(x => x.ConvertToDto(It.IsAny<Contact>())).Returns(this.dto);
             this.mockFactory.Setup(x => x.CreateFromDto(It.IsAny<ContactDto>())).Returns(this.contact);
             
-            var actionResult = this.controller.UpdateContact("") as ResponseMessageResult;
+            var actionResult = this.controller.UpdateContact(new ContactDto()) as ResponseMessageResult;
             var task = actionResult.Response.Content.ReadAsStringAsync();
             task.Wait();
             Assert.AreEqual(actionResult.Response.StatusCode, HttpStatusCode.OK);
@@ -116,19 +117,19 @@ namespace Apd.WebApi.Tests.Controllers {
         }
 
         [Test]
-        public void update_contact_returns_bad_request_for_invalid_contact() {
+        public void UpdateContact_for_invalid_contact_should_return_BadRequestResult() {
             this.mockFactory.Setup(x => x.CreateFromDto(It.IsAny<ContactDto>())).Throws<InvalidOperationException>();
-            var actionResult = this.controller.UpdateContact(this.dto.SerializeToJson());
+            var actionResult = this.controller.UpdateContact(this.dto);
             Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
         
         [Test]
-        public void add_contact_returns_updated_contact_parsed_to_json() {
+        public void AddContact_should_return_result_with_dto_parsed_to_json_and_status_code_OK() {
             this.mockRepository.Setup(x => x.UpdateContact(It.IsAny<Contact>())).Returns(this.contact);
             this.mockFactory.Setup(x => x.ConvertToDto(It.IsAny<Contact>())).Returns(this.dto);
             this.mockFactory.Setup(x => x.CreateFromDto(It.IsAny<ContactDto>())).Returns(this.contact);
             
-            var actionResult = this.controller.AddContact("") as ResponseMessageResult;
+            var actionResult = this.controller.AddContact(new ContactDto()) as ResponseMessageResult;
             var task = actionResult.Response.Content.ReadAsStringAsync();
             task.Wait();
             Assert.AreEqual(actionResult.Response.StatusCode, HttpStatusCode.OK);
@@ -136,65 +137,9 @@ namespace Apd.WebApi.Tests.Controllers {
         }
 
         [Test]
-        public void add_contact_returns_bad_request_for_invalid_contact() {
+        public void AddContact_for_invalid_contact_should_return_BadRequestResult() {
             this.mockFactory.Setup(x => x.CreateFromDto(It.IsAny<ContactDto>())).Throws<InvalidOperationException>();
-            var actionResult = this.controller.AddContact(this.dto.SerializeToJson());
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
-        }
-
-        [Test]
-        public void delete_contact_email_returns_ok_result_for_valid_email() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.DeleteContactEmail(1, this.contact.Emails.First().Value);
-            Assert.IsInstanceOf<OkResult>(actionResult);
-        }
-
-        [Test]
-        public void delete_contact_email_returns_bad_request_for_invalid_email() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.DeleteContactEmail(1, "a@b.c");
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
-        }
-        
-        [Test]
-        public void add_contact_email_returns_ok_result_for_valid_email() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.AddContactEmail(1, "a@b.c");
-            Assert.IsInstanceOf<OkResult>(actionResult);
-        }
-
-        [Test]
-        public void add_contact_email_returns_bad_request_for_invalid_email() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.AddContactEmail(1, this.contact.Emails.First().Value);
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
-        }
-        
-        [Test]
-        public void delete_contact_phone_returns_ok_result_for_valid_phone() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.DeleteContactPhone(1, this.contact.PhoneNumbers.First().Value);
-            Assert.IsInstanceOf<OkResult>(actionResult);
-        }
-
-        [Test]
-        public void delete_contact_phone_returns_bad_request_for_invalid_phonel() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.DeleteContactPhone(1, "11222333666");
-            Assert.IsInstanceOf<BadRequestResult>(actionResult);
-        }
-        
-        [Test]
-        public void add_contact_phone_returns_ok_result_for_valid_phone() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.AddContactPhone(1, "11222333666");
-            Assert.IsInstanceOf<OkResult>(actionResult);
-        }
-
-        [Test]
-        public void add_contact_phone_returns_bad_request_for_invalid_phone() {
-            this.mockRepository.Setup(x => x.GetContact(It.IsAny<int>())).Returns(this.contact);
-            var actionResult = this.controller.AddContactPhone(1, this.contact.PhoneNumbers.First().Value);
+            var actionResult = this.controller.AddContact(this.dto);
             Assert.IsInstanceOf<BadRequestResult>(actionResult);
         }
     }

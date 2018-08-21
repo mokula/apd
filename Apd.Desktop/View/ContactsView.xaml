@@ -12,13 +12,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
+            <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <TextBox Padding="3"></TextBox>
-        <Button Grid.Column="1" Margin="3 0 0 0">Search</Button>
-        <ListBox Grid.Row="1" Grid.ColumnSpan="2" Margin="0 3 0 0"></ListBox>
+        <TextBox Name="SearchName" Padding="3"></TextBox>
+        <Button Grid.Column="1" Margin="3 0 0 0" Command="{Binding SearchContacts}" CommandParameter="{Binding ElementName=SearchName, Path=Text}">Search</Button>
+        <ListBox Grid.Column="0" ItemsSource="{Binding ContactsListView}" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 3 0 0" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedContact}"></ListBox>
+        <Button Grid.Column="0" Grid.Row="2" Margin="0 3 0 0" Grid.ColumnSpan="2" Command="{Binding AddNew}">Add new</Button>
     </Grid>
 </UserControl>

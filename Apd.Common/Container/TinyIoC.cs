@@ -863,7 +863,7 @@ namespace Apd.Common.Container
 #else
     public
 #endif
-    sealed partial class TinyIoCContainer : IDisposable
+    sealed partial class TinyIoCContainer : IDisposable, IContainer
     {
         #region Fake NETFX_CORE Classes
 #if NETFX_CORE

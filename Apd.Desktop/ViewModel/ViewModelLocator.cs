@@ -1,5 +1,8 @@
 
+using System.Configuration;
 using Apd.Common.Container;
+using Apd.Desktop.Service;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Apd.Desktop.ViewModel {
     /// <summary>
@@ -27,14 +30,26 @@ namespace Apd.Desktop.ViewModel {
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
+            //this.container.Register<>()
+            this.container.Register<IContainer>(this.container);
+            this.container.Register(Messenger.Default);
+            this.container.Register<IRestClientFactory, RestClientFactory>();
+            this.container.Register<IContacts, Contacts>();
+
+            string apiAddress = ConfigurationManager.AppSettings["api_address"] ?? "";
+            
             this.container.Register<MainViewModel>();
             this.container.Register<ApiSettingsViewModel>();
             this.container.Register<ContactsViewModel>();
+            this.container.Register<ContactViewModel>();
+            this.container.Register<ShieldViewModel>();
+            this.container.Register<IRestApi, RestApi>(new RestApi(this.container.Resolve<IRestClientFactory>(), this.container.Resolve<IMessenger>(), apiAddress));
         }
 
         public MainViewModel Main => this.container.Resolve<MainViewModel>();
         public ApiSettingsViewModel ApiSettings => this.container.Resolve<ApiSettingsViewModel>();
         public ContactsViewModel Contacts => this.container.Resolve<ContactsViewModel>();
+        public ShieldViewModel Shield => this.container.Resolve<ShieldViewModel>();
 
         public static void Cleanup() {
             // TODO Clear the ViewModels

@@ -32,8 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Communication\ApiActionNames.cs" />
+    <Compile Include="Communication\ApiResources.cs" />
+    <Compile Include="Communication\DataTransferObject\ContactDto.cs" />
+    <Compile Include="Container\IContainer.cs" />
     <Compile Include="Container\TinyIoC.cs" />
-    <Compile Include="DataTransferObject\ContactDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

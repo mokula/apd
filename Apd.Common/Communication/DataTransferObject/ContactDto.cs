@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Apd.Common.DataTransferObject {
+namespace Apd.Common.Communication.DataTransferObject {
     public class ContactDto {
         public int Id { get; set; }
         public string FirstName { get; set; }

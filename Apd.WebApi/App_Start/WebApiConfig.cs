@@ -2,8 +2,7 @@
 using Apd.Common.Container;
 using Apd.Model.Repository;
 using Apd.WebApi.Controllers;
-using Apd.WebApi.Factory;
-using Apd.WebApi.Repository;
+using Apd.WebApi.Service;
 using Newtonsoft.Json;
 
 namespace Apd.WebApi

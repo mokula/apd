@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Apd.Common.DataTransferObject;
+using Apd.Common.Communication.DataTransferObject;
 using Apd.Model.Entity;
 using Apd.Model.Value;
 
-namespace Apd.WebApi.Factory {
+namespace Apd.WebApi.Service {
     public class ContactFactory : IContactFactory{
         public Contact CreateFromOther(int id, Contact other) {
             return new Contact(id, other.FirstName, other.LastName, other.BirthDate, other.Emails, other.PhoneNumbers);

@@ -3,7 +3,6 @@
 namespace Apd.Model.Value {
     public class BirthDate {
         public DateTime? Value { get; }
-        public bool IsEmpty => !Value.HasValue;
 
         public BirthDate(DateTime? value = null) {
             if (!value.HasValue)

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using Apd.Model.Entity;
 using Apd.Model.Value;
-using Apd.WebApi.Factory;
-using Apd.WebApi.Repository;
+using Apd.WebApi.Service;
 using Moq;
 using NUnit.Framework;
 
@@ -44,23 +41,14 @@ namespace Apd.WebApi.Tests.Repository {
         }
 
         [Test]
-        public void add_contact_recreates_contact_with_new_id() {
+        public void AddContact_to_empty_reposiotry_should_overwrite_Contact_Id_with_1() {
             this.mockFactory.Setup(x => x.CreateFromOther(It.IsAny<int>(), this.contact_1)).Returns(this.contact_2);
             var addedContact = this.repo.AddContact(this.contact_1);
-            var contact = this.repo.GetContact(this.contact_2.Id);
-            Assert.AreSame(contact, addedContact);
+            Assert.AreEqual(1, addedContact.Id);
         }
 
         [Test]
-        public void delete_contact_removes_contact_from_repository() {
-            this.DefaultFactorySetup();
-            this.repo.AddContact(this.contact_2);
-            this.repo.DeleteContact(this.contact_2.Id);
-            Assert.Throws<InvalidOperationException>(() =>this.repo.GetContact(this.contact_2.Id));
-        }
-
-        [Test]
-        public void update_contact_replaces_exisitng_contact_with_same_id() {
+        public void UpdateContact_should_replace_exisitng_contact_with_same_Id() {
             this.DefaultFactorySetup();
             var contactToUpdate = new Contact(1, new Name("Abc"),new Name("Abc"), new BirthDate(new DateTime(1980, 1,1)), null, null);
             this.repo.AddContact(this.contact_2);
@@ -73,7 +61,7 @@ namespace Apd.WebApi.Tests.Repository {
         [TestCase("s", 2)]
         [TestCase("JHON", 1)]
         [TestCase("gErs", 1)]
-        public void search_contact_by_name_returns_contacts_with_matching_name_case_invariant(string val, int numberOfMatchingNames) {
+        public void SearchContactsByName_should_retun_contacts_with_matching_FirstName_or_LastName_case_invariant(string val, int numberOfMatchingNames) {
             this.DefaultFactorySetup();
             this.repo.AddContact(this.contact_2);
             this.repo.AddContact(this.contact_3);

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Linq;
 using Apd.Model.Entity;
 using Apd.Model.Repository;
 using Apd.Model.Value;
-using Apd.WebApi.Factory;
 
-namespace Apd.WebApi.Repository {
+namespace Apd.WebApi.Service {
     public class DictionaryContactRepository : IContactRepository {
         private ConcurrentDictionary<int, Contact> dictionary = new ConcurrentDictionary<int, Contact>();
         private IContactFactory contactFactory;
@@ -53,7 +50,8 @@ namespace Apd.WebApi.Repository {
         }
 
         public Contact AddContact(Contact contact) {
-            var contactWithNewId = this.contactFactory.CreateFromOther(this.dictionary.Count + 1, contact);
+            var id = this.dictionary.Count == 0 ? 1 : this.dictionary.Keys.Max() + 1;
+            var contactWithNewId = this.contactFactory.CreateFromOther(id, contact);
             this.dictionary.TryAdd(contactWithNewId.Id, contactWithNewId);
             return contactWithNewId;
         }

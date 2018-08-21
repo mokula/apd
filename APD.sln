@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apd.Common", "Apd.Common\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apd.Desktop", "Apd.Desktop\Apd.Desktop.csproj", "{5207AC1E-66FE-4157-B552-1AC45D07B31D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apd.Desktop.Tests", "Apd.Desktop.Tests\Apd.Desktop.Tests.csproj", "{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{5207AC1E-66FE-4157-B552-1AC45D07B31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5207AC1E-66FE-4157-B552-1AC45D07B31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5207AC1E-66FE-4157-B552-1AC45D07B31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DE2709AB-50EF-46F6-901C-2DCBB8D2F3CA} = {D5FCA600-FB96-470A-A4E9-22E81F2C47E3}
 		{98622AAF-DA58-4617-A658-08A008190AA3} = {D5FCA600-FB96-470A-A4E9-22E81F2C47E3}
+		{CDCEC79A-C94C-4827-AC6E-0E917E87B2C2} = {D5FCA600-FB96-470A-A4E9-22E81F2C47E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC3A0E83-0E70-474E-8F13-75D684509E06}

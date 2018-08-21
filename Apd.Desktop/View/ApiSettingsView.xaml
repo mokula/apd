@@ -12,6 +12,6 @@
 		    <ColumnDefinition Width="*"/>
 	    </Grid.ColumnDefinitions>
 	    <Label>API Address:</Label>
-	    <TextBox Grid.Column="1"></TextBox>
+	    <TextBox Grid.Column="1" Text="{Binding ApiAddress}"></TextBox>
     </Grid>
 </UserControl>
